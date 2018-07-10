@@ -1,0 +1,13 @@
+{
+  "name": "docker_web_app",
+  "version": "2.0.0",
+  "description": "Node.js + mysql on Docker",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "mysql": "^2.11.1"
+  }
+}

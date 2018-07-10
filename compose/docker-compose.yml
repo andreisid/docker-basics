@@ -1,0 +1,16 @@
+version: "3"
+services:
+    node-app:
+        build:
+            context: ./node
+        ports:
+            - "80:8000"
+    mysql:
+        build:
+            context: ./mysql
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./mysql_data:/var/lib/mysql
+        expose:
+            - "3306"
