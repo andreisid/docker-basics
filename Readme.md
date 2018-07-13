@@ -145,6 +145,13 @@ Command | Description
 ```docker-compose down``` | stop the stack
 
 
+## Repositories 
+You can push your locall created images to a repo. The default is dockerhub 
+
+* https://hub.docker.com/ - create account
+* create a local image with __docker build__
+* ```docker tag <image_id> <dockerhub_username>/<image_name>```
+* ```docker push <dockerhub_username>/<image_name>```
 
 
 ## Swarm [IN PROGRESS]
