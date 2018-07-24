@@ -118,14 +118,14 @@ Note:
 
 
 __Example:__  
-```FROM node```  
-```WORKDIR /usr/src/app```  
-```ADD package*.json ./```  
-```ADD server.js ./```  
-```ADD chinook.db ./```  
-```RUN npm install```  
-```EXPOSE 8080```  
-```CMD [ "npm", "start" ]```  
+```FROM node```
+```WORKDIR /usr/src/app```
+```ADD package*.json ./```
+```ADD server.js ./```
+```ADD chinook.db ./```
+```RUN npm install```
+```EXPOSE 8080```
+```CMD [ "npm", "start" ]```
 
 
 ## Composer
@@ -196,6 +196,7 @@ Command | Description
 __Pod__ | 
 ```kubectl get nod``` | show nod list
 ```kubectl get pod``` | show pod list
+```kubectl get pod --show-labels``` | show pod list with labels
 ```kubectl describe pod``` | details about pods
 ```kubectl describe pod <pod_name>``` | details about the pod
 ```kubectl port-forward <pod_name> 80:8080``` | pod port 8080, local port 80
@@ -206,13 +207,22 @@ __ReplicaController__ |
 ```kubectl create -f node-app-rc.yml``` | 
 ```kubectl scale --replicas=4 -f node-app-rc.yml``` | scale a running pod 
 ```kubectl get rc``` | get the replication controllers
+```kubectl describe rc <rc_name>``` | details about the rc
 ```kubectl scale --replicas=3 rc/<replication-controller_name>``` | scale a running pod
 ```kubectl delete rc/<replication-controller_name>``` | remove replication controller. All pods are removed
+__ReplicaSets__ | usually created with deployments
+```kubectl get rs``` | show rs
+```kubectl describe rs <rs_name>``` | details about the rs
 __Deployments__ |
 ```kubectl create -f node-app-deployment.yml``` | 
 ```kubectl get deployments``` | show deployments
-```kubectl get rs``` | show replica sets
+```kubectl describe pod <pod_name>``` | details about the pod
+```kubectl set image deployment/<deployment_name> <container_name>=<image_name>:<tag>``` | change image in a running deployment 
+```kubectl set image deployment/node-app-deployment node-app=node-app:1``` | example of changing the image
+```kubectl edit deployment/Ndeployment_name>``` | edit the deployment object
 ```kubectl rollout status deployment/node-app-deployment``` | get the status of a deployment
-
-
+```kubectl rollout history deployment/node-app-deployment``` | get the history of a deployment
+```kubectl rollout undo deployment/node-app-deployment``` | rollback to previous version
+```kubectl rollout undo deployment/node-app-deployment --to-revision=n``` | rollback to any version
+```kubetl expose deployment <deployment_name> --type=NodePort``` | exposes deployment
 
