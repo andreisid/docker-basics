@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+    name: node-app-controller
+spec: 
+    replicas: 2
+    selector: 
+        app: node-app
+    template:
+        metadata: 
+            labels:
+                app: node-app
+
+        spec:
+            containers:
+            - name: node-app
+              image: andreisid/node-app
+              ports:
+              - containerPort: 8080

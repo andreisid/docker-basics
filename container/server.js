@@ -8,7 +8,7 @@ const HOST = '0.0.0.0';
 
 const sqlite3 = require('sqlite3');
 
-var html = "<h5>DB query result: </h5> ";
+var html = "v2.0 </br> <h5>DB query result: </h5> ";
 
 let db = new sqlite3.Database('./chinook.db', sqlite3.OPEN_READWRITE, (err) => {
   if (err) {

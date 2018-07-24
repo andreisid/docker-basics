@@ -117,8 +117,8 @@ Note:
 * find [here](https://docs.docker.com/engine/reference/builder/) the full reference for Dockerfile
 
 
-Example:
-```from node
+__Example:__  
+```FROM node
 WORKDIR /usr/src/app
 ADD package*.json ./
 ADD server.js ./
@@ -146,23 +146,73 @@ Command | Description
 
 
 ## Repositories 
-You can push your locall created images to a repo. The default is dockerhub 
+You can push your locall created images to a repo. The default is dockerhub. For every image you push you need to specify a tag. If you don't, __latest__ tag will be assigend by default 
 
 * https://hub.docker.com/ - create account
 * create a local image with __docker build__
 * ```docker tag <image_id> <dockerhub_username>/<image_name>```
 * ```docker push <dockerhub_username>/<image_name>```
 
+__Example__:  
+* ```docker build -t node-app:2 .```
+* ```docker tag node-app:2 <dockerhub_username>/node-app:2```
+* ```docker push <dockerhub_username>/node-app:2```
 
-## Swarm [IN PROGRESS]
 
-docker swarm init
-docker stack deploy -c docker-compose.yml getstartedlab		run the stack
-docker service ls											show running service stack
-docker service ps getstartedlab_web
-docker stack rm getstartedlab
-docker swarm leave --force
 
+
+
+
+
+# Orchestration
+
+## Kubernetes [IN PROGRESS]
+
+Cubernetes components:
+* Pods - A pod is a representation of an application. It can contain multiple components (webserver,db, cache ...). A pod is usually composed of multiple containers. Its like docker-compose component.
+* ReplicaControllers - An object that defines a pod template and control parameters to scale identical replicas of a pod horizontally by increasing or decreasing the number of running copies
+* ReplicaSets - ReplicaControllers v2.0. It is used by Deployments
+* Deployments - Deployments are one of the most common workloads to directly create and manage. Deployments use replication sets, and it's used for being easier to update and rollback than ReplicaControllers.
+
+### Minikube
+Minikube is a simplified kubernetes instance that can run locally, and is very usefull for development purposes.
+
+Command | Description 
+--------------|--------------
+```minikube start --vm-driver=kvm2``` | start minikube
+```minikube ssh``` | ssh to minikube vm
+```minikube stop``` | stop vm
+```minikube delete``` | remove minikube cluster
+```minikube service node-app --url``` | give you the url to access the service
+```minikube addons list``` | shows available addons
+```minikube addons enable ingress``` | enable loadbalancing feature
+```minikube dashboard``` | start kubernetes dashboard
+
+### Kubectl
+Kubectl is the main cli command to interct with kubernetes
+
+Command | Description 
+--------------|--------------
+__Pod__ | 
+```kubectl get nod``` | show nod list
+```kubectl get pod``` | show pod list
+```kubectl describe pod``` | details about pods
+```kubectl describe pod <pod_name>``` | details about the pod
+```kubectl port-forward <pod_name> 80:8080``` | pod port 8080, local port 80
+```kubectl get service``` | show services
+```kubectl expose pod node-app --port=80 --target-port=8080``` | create a service
+```kubectl expose pod node-app --type=NodePort``` | create a service
+__ReplicaController__ |
+```kubectl create -f node-app-rc.yml``` | 
+```kubectl scale --replicas=4 -f node-app-rc.yml``` | scale a running pod 
+```kubectl get rc``` | get the replication controllers
+```kubectl scale --replicas=3 rc/<replication-controller_name>``` | scale a running pod
+```kubectl delete rc/<replication-controller_name>``` | remove replication controller. All pods are removed
+__Deployments__ |
+```kubectl create -f node-app-deployment.yml``` | 
+```kubectl get deployments``` | show deployments
+```kubectl get rs``` | show replica sets
+```kubectl rollout status deployment/node-app-deployment``` | get the status of a deployment
 
 
 

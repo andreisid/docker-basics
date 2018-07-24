@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    name: node-app-deployment
+spec: 
+    replicas: 2
+    template:
+        metadata: 
+            labels:
+                app: node-app
+        spec:
+            containers:
+            - name: node-app
+              image: andreisid/node-app
+              ports:
+              - containerPort: 8080
