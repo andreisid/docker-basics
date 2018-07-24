@@ -118,14 +118,14 @@ Note:
 
 
 __Example:__  
-```FROM node
-WORKDIR /usr/src/app
-ADD package*.json ./
-ADD server.js ./
-ADD chinook.db ./
-RUN npm install
-EXPOSE 8080
-CMD [ "npm", "start" ]```
+```FROM node```
+```WORKDIR /usr/src/app```
+```ADD package*.json ./```
+```ADD server.js ./```
+```ADD chinook.db ./```
+```RUN npm install```
+```EXPOSE 8080```
+```CMD [ "npm", "start" ]```
 
 
 ## Composer
@@ -155,8 +155,8 @@ You can push your locall created images to a repo. The default is dockerhub. For
 
 __Example__:  
 * ```docker build -t node-app:2 .```
-* ```docker tag node-app:2 <dockerhub_username>/node-app:2```
-* ```docker push <dockerhub_username>/node-app:2```
+* ```docker tag node-app:2 andreisid/node-app:2```
+* ```docker push andreisid/node-app:2```
 
 
 
