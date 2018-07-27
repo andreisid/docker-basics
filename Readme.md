@@ -117,7 +117,7 @@ Note:
 * find [here](https://docs.docker.com/engine/reference/builder/) the full reference for Dockerfile
 
 
-__Example:__  
+__Example:__    
 ```FROM node```
 ```WORKDIR /usr/src/app```
 ```ADD package*.json ./```
@@ -169,10 +169,12 @@ __Example__:
 ## Kubernetes [IN PROGRESS]
 
 Cubernetes components:
+* Nods - A node is a worker machine in Kubernetes. The services on a node include Docker, kubelet and kube-proxy.
 * Pods - A pod is a representation of an application. It can contain multiple components (webserver,db, cache ...). A pod is usually composed of multiple containers. Its like docker-compose component.
 * ReplicaControllers - An object that defines a pod template and control parameters to scale identical replicas of a pod horizontally by increasing or decreasing the number of running copies
 * ReplicaSets - ReplicaControllers v2.0. It is used by Deployments
 * Deployments - Deployments are one of the most common workloads to directly create and manage. Deployments use replication sets, and it's used for being easier to update and rollback than ReplicaControllers.
+* Services = Services are logical bridge between pods/deployments and end-users.
 
 ### Minikube
 Minikube is a simplified kubernetes instance that can run locally, and is very usefull for development purposes.
@@ -193,8 +195,10 @@ Kubectl is the main cli command to interct with kubernetes
 
 Command | Description 
 --------------|--------------
-__Pod__ | 
+__Nod__ | 
 ```kubectl get nod``` | show nod list
+```kubectl get nod --show-labes``` | show nods with labes
+__Pod__ | 
 ```kubectl get pod``` | show pod list
 ```kubectl get pod --show-labels``` | show pod list with labels
 ```kubectl describe pod``` | details about pods
@@ -225,4 +229,6 @@ __Deployments__ |
 ```kubectl rollout undo deployment/node-app-deployment``` | rollback to previous version
 ```kubectl rollout undo deployment/node-app-deployment --to-revision=n``` | rollback to any version
 ```kubetl expose deployment <deployment_name> --type=NodePort``` | exposes deployment
-
+__Services__ |
+```kubectl expose pod node-app --type=NodePort``` | externally expose a pod
+```minikube service node-app --url```   | get the external ip of the service
