@@ -19,7 +19,7 @@ spec:
               - containerPort: 8080
                 name: node-app-port
               livenessProbe:
-                faliureThreshold: 3
+                failureThreshold: 3
                 httpGet:
                     path: /
                     port: node-app-port
