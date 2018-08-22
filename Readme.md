@@ -7,6 +7,10 @@ By contrast, a virtual machine (VM) runs a full-blown “guest” operating syst
 
 ![containers] (https://i.stack.imgur.com/exIhw.png)
 
+## Check your installation
+
+```docker run hello-world```
+
 ## Using Docker Containers
 
 Containers are built from images. You can create containers from preexisting images hosted on the docker hub.
@@ -27,9 +31,11 @@ Command | Description
 #### Quickly  run a container
 Command | Description 
 --------------|--------------
-```docker run -it alpine bash```	| run container interactive mode
+```docker run hello-world``` | quickly run a container
+```docker run busybox echo "hello from busybox"``` | echo and exit
+```docker run -it alpine sh```	| run container in interactive mode and allocate terminal
 ```docker run -it centos:7 bash``` |	use tag
-```docker run -d --name my-httpd -p 8080:80 httpd:2.4``` | run an apache server
+```docker run -d -p 8080:80 httpd:2.4``` | run an apache server
 
 
 #### Work with running containers
@@ -41,7 +47,7 @@ Command | Description
 ```docker inspect <container_id>``` | container info, get ip address
 ```docker rm <container_id>``` | remove container
 ```crtl+p crtl+q``` | detach current container
-```docker attach <container_id>``` | attach container  
+```docker attach <container_id>``` | attach container. It attaches to the running process, only use on containers started with /bin/bash
 ```docker kill <container_id>``` | kill a running container
 
 
@@ -49,8 +55,7 @@ Command | Description
 Command | Description 
 --------------|--------------
 ```docker run -it -v /tmp:/container_mount centos:7 bash``` | mount volume from host to container
-```docker volume ls``` | show a list of volumes
-```docker run -d --name my-httpd -p 8080:80 -v "$PWD":/usr/local/apache2/htdocs/ httpd:2.4``` | run an apache and serve files from current directory 
+```docker run -d -p 8080:80 -v "$PWD":/usr/local/apache2/htdocs/ httpd:2.4``` | run an apache and serve files from current directory 
 
 
 #### Linking containers
@@ -58,7 +63,7 @@ Command | Description
 --------------|--------------
 ```docker run -it -d --rm --name server1 ubuntu:14.04 bash -c "nc -lp 4444"``` | run a tcp server on port 4444 in a container
 ```docker run -it --rm --link server1 --name server2 ubuntu:14.04 bash``` | run a 2nd container and link it to the first. run 'nc server1 4444' on server2 to send data. use docker logs to see server1 output 
-
+```docker logs <container_id>``` | shows the output of the process running in the container
 
 #### Cleanup containers/images/volumes
 
@@ -118,14 +123,14 @@ Note:
 
 
 __Example:__    
-```FROM node```
-```WORKDIR /usr/src/app```
-```ADD package*.json ./```
-```ADD server.js ./```
-```ADD chinook.db ./```
-```RUN npm install```
-```EXPOSE 8080```
-```CMD [ "npm", "start" ]```
+```FROM node```  
+```WORKDIR /usr/src/app```  
+```ADD package*.json ./```  
+```ADD server.js ./```  
+```ADD chinook.db ./```  
+```RUN npm install```  
+```EXPOSE 8080```  
+```CMD [ "npm", "start" ]```  
 
 
 ## Composer
@@ -133,7 +138,7 @@ __Example:__
 * Compose is a tool for defining and running multi-container Docker applications
 * steps
     * create docker-composer.yml
-    * docker-composer up
+    * docker-compose up
 * https://docs.docker.com/compose/compose-file/
 * Use **compose** folder from this repo for the below examples 
 
@@ -145,8 +150,13 @@ Command | Description
 ```docker-compose down``` | stop the stack
 
 
-## Repositories 
-You can push your locall created images to a repo. The default is dockerhub. For every image you push you need to specify a tag. If you don't, __latest__ tag will be assigend by default 
+## Registry
+
+A Docker registry is a place to store and distribute Docker images. It serves as a target for your docker push and docker pull commands.
+The default registry is dockerhub
+
+Image format: ```<username>/<image_name>:<tag>```
+
 
 * https://hub.docker.com/ - create account
 * create a local image with __docker build__
@@ -201,6 +211,7 @@ __Nod__ |
 __Pod__ | 
 ```kubectl get pod``` | show pod list
 ```kubectl get pod --show-labels``` | show pod list with labels
+```kubectl exec -it <pod_id> -- /bin/bash``` | enter runnin pod
 ```kubectl describe pod``` | details about pods
 ```kubectl describe pod <pod_name>``` | details about the pod
 ```kubectl port-forward <pod_name> 80:8080``` | pod port 8080, local port 80
@@ -232,3 +243,5 @@ __Deployments__ |
 __Services__ |
 ```kubectl expose pod node-app --type=NodePort``` | externally expose a pod
 ```minikube service node-app --url```   | get the external ip of the service
+```kubectl get pods --namespace kube-system ``` | get the pods running kubernetes system(ex. dns)
+```kubectl cluster-info``` | show how the cluster is setup, nodes, master, dns,..
